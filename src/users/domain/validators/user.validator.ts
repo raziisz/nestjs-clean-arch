@@ -32,3 +32,9 @@ export class UserValidator extends ClassValidatorFields<UserRules> {
     return super.validate(new UserRules(data ?? {} as UserProps))
   }
 }
+
+export class UserValidatorFactory {
+  static create(): UserValidator {
+    return new UserValidator()
+  }
+}
