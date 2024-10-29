@@ -23,13 +23,15 @@ describe('InMemoryRepository unit tests', () => {
   });
 
   it('Should throw error when entity not found', async () => {
-    await expect(sut.findById('anyid')).rejects.toThrow(new NotFoundError('Entity not found'));
+    await expect(sut.findById('anyid')).rejects.toThrow(
+      new NotFoundError('Entity not found'),
+    );
   });
 
-  it('Should find a entity by id', async () => {
+  it('Should find an entity by id', async () => {
     const entity = new StubEntity({ name: 'teste name', price: 50 });
     await sut.insert(entity);
-    const result = await sut.findById(entity.id)
+    const result = await sut.findById(entity.id);
 
     expect(entity.toJSON()).toStrictEqual(result.toJSON());
   });
@@ -38,8 +40,41 @@ describe('InMemoryRepository unit tests', () => {
     const entity = new StubEntity({ name: 'teste name', price: 50 });
     await sut.insert(entity);
 
-    const result = await sut.findAll()
+    const result = await sut.findAll();
 
     expect([entity]).toStrictEqual(result);
+  });
+
+  it('Should throw error on update when entity not found', async () => {
+    const entity = new StubEntity({ name: 'teste name', price: 50 });
+
+    expect(sut.update(entity)).rejects.toThrow(
+      new NotFoundError('Entity not found'),
+    );
+  });
+
+  it('Should update an entity', async () => {
+    const entity = new StubEntity({ name: 'teste name', price: 50 });
+    await sut.insert(entity);
+    const entityUpdated = new StubEntity(
+      { name: 'updated', price: 10 },
+      entity.id,
+    );
+
+    await sut.update(entityUpdated);
+    expect(entityUpdated.toJSON()).toStrictEqual(sut.items[0].toJSON());
+  });
+
+  it('Should throw error when entity not found to delete', async () => {
+    await expect(sut.delete('anyid')).rejects.toThrow(
+      new NotFoundError('Entity not found'),
+    );
+  });
+
+  it('Should delete an entity', async () => {
+    const entity = new StubEntity({ name: 'teste name', price: 50 });
+    await sut.insert(entity);
+    await sut.delete(entity.id);
+    expect(sut.items).toHaveLength(0);
   });
 });
