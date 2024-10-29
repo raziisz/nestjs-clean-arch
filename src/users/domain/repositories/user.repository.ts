@@ -2,6 +2,6 @@ import { RepositoryInterface } from '@/shared/domain/repositories/repository.con
 import { UserEntity } from '../entities/user.entity';
 
 export interface UserRepository extends RepositoryInterface<UserEntity> {
-  findByEmail(email: string): Promise<UserEntity> | null;
+  findByEmail(email: string): Promise<UserEntity>;
   emailExists(email: string): Promise<void>;
 }

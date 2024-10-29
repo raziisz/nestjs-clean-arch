@@ -8,7 +8,7 @@ export class UserInMemoryRepository
   extends InMemoryRepository<UserEntity>
   implements UserRepository
 {
-  findByEmail(email: string): Promise<UserEntity> | null {
+  findByEmail(email: string): Promise<UserEntity>  {
     const entity = this.getEmail(email);
     if (!entity) throw new NotFoundError(`Entity not found using email ${email}`);
 
