@@ -11,15 +11,15 @@ export class UserInMemoryRepository
 {
   sortableFields: string[] = ['name', 'createdAt'];
 
-  findByEmail(email: string): Promise<UserEntity> {
-    const entity = this.getEmail(email);
+  async findByEmail(email: string): Promise<UserEntity> {
+    const entity = await this.getEmail(email);
     if (!entity)
       throw new NotFoundError(`Entity not found using email ${email}`);
 
     return entity;
   }
   async emailExists(email: string): Promise<void> {
-    const entity = this.getEmail(email);
+    const entity = await this.getEmail(email);
     if (entity) throw new ConflictError('Email address already used');
   }
 
