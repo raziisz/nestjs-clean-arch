@@ -128,14 +128,17 @@ export class SearchResult<E extends Entity, Filter = string> {
       sort: this.sort,
       sortDir: this.sortDir,
       filter: this.filter,
-    }
+    };
   }
 }
 export interface SearchableRepositoryInterface<
   E extends Entity,
   Filter = string,
   SeachInput = SearchParams,
-  SearchOutput = SearchResult<E,Filter>,
+  SearchOutput = SearchResult<E, Filter>,
 > extends RepositoryInterface<E> {
+
+  sortableFields: string[];
+
   search(props: SeachInput): Promise<SearchOutput>;
 }
