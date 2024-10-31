@@ -5,7 +5,6 @@ import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builde
 import { BadRequestError } from '@/shared/application/errors/bad-request-error';
 import { SigninUseCase } from '../../signin.usecase';
 import { UserEntity } from '@/users/domain/entities/user.entity';
-import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { InvalidCredentialsError } from '@/shared/application/errors/invalid-credentials-error';
 
 describe('SigninUseCase test unit', () => {
