@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { SignupUseCase } from '../application/usecases/signup.usecase';
 import { UserInMemoryRepository } from './database/in-memory/repositories/user-in-memory.repository';
@@ -16,7 +15,6 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
 @Module({
   controllers: [UsersController],
   providers: [
-    UsersService,
     {
       provide: 'UserRepository',
       useClass: UserInMemoryRepository,
@@ -27,7 +25,6 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
     },
     {
       provide: SignupUseCase.UseCase,
-      useClass: SignupUseCase.UseCase,
       useFactory: (
         userRepository: UserRepository.Repository,
         hashProvider: HashProvider,
@@ -36,7 +33,6 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
     },
     {
       provide: SigninUseCase.UseCase,
-      useClass: SigninUseCase.UseCase,
       useFactory: (
         userRepository: UserRepository.Repository,
         hashProvider: HashProvider,
@@ -45,7 +41,6 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
     },
     {
       provide: GetUserUseCase.UseCase,
-      useClass: GetUserUseCase.UseCase,
       useFactory: (
         userRepository: UserRepository.Repository
       ) => new GetUserUseCase.UseCase(userRepository),
@@ -53,7 +48,6 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
     },
     {
       provide: ListUsersUseCase.UseCase,
-      useClass: ListUsersUseCase.UseCase,
       useFactory: (
         userRepository: UserRepository.Repository
       ) => new ListUsersUseCase.UseCase(userRepository),
@@ -61,7 +55,6 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
     },
     {
       provide: UpdateUserUseCase.UseCase,
-      useClass: UpdateUserUseCase.UseCase,
       useFactory: (
         userRepository: UserRepository.Repository
       ) => new UpdateUserUseCase.UseCase(userRepository),
@@ -69,7 +62,6 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
     },
     {
       provide: UpdatePasswordUserUseCase.UseCase,
-      useClass: UpdatePasswordUserUseCase.UseCase,
       useFactory: (
         userRepository: UserRepository.Repository,
         hashProvider: HashProvider,
@@ -78,7 +70,6 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
     },
     {
       provide: DeleteUserUseCase.UseCase,
-      useClass: DeleteUserUseCase.UseCase,
       useFactory: (
         userRepository: UserRepository.Repository,
 
