@@ -1,4 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from '../../users.controller';
 import { UserOutput } from '@/users/application/dtos/user-output';
 import { SignupUseCase } from '@/users/application/usecases/signup.usecase';
@@ -92,7 +91,7 @@ describe('UsersController', () => {
     sut['updatePasswordUserUseCase'] = mockUpdatePasswordUserUseCase as any;
     const input: UpdatePasswordDto = {
       password: 'new password',
-      oldPassword: props.password
+      oldPassword: props.password,
     };
 
     const result = await sut.updatePassword(id, input);
@@ -101,5 +100,17 @@ describe('UsersController', () => {
       id,
       ...input,
     });
+  });
+  it('should delete a user', async () => {
+    const output = undefined;
+    const mockDeleteUserUseCase = {
+      execute: jest.fn().mockReturnValue(Promise.resolve()),
+    };
+
+    sut['deleteUserUseCase'] = mockDeleteUserUseCase as any;
+
+    const result = await sut.remove(id);
+    expect(output).toStrictEqual(result);
+    expect(mockDeleteUserUseCase.execute).toHaveBeenCalledWith({ id });
   });
 });
