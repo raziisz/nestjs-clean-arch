@@ -5,7 +5,7 @@ import { SigninUseCase } from '../application/usecases/signin.usecase';
 import { SignupUseCase } from '../application/usecases/signup.usecase';
 import { UpdateUserUseCase } from '../application/usecases/update-user.usecase';
 import { UpdatePasswordUserUseCase } from '../application/usecases/update-password-user.usecase';
-import { GetUserUseCase } from '../application/usecases/getuser.usecase ';
+import { GetUserUseCase } from '../application/usecases/getuser.usecase';
 import { ListUsersUseCase } from '../application/usecases/listusers.usecase';
 import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
 import { SigninDto } from './dtos/signin.dto';

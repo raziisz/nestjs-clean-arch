@@ -6,7 +6,7 @@ import { BcryptjsHashProvider } from './providers/hash-provider/bcryptjs-hash.pr
 import { UserRepository } from '../domain/repositories/user.repository';
 import { HashProvider } from '@/shared/application/providers/hash-provider';
 import { SigninUseCase } from '../application/usecases/signin.usecase';
-import { GetUserUseCase } from '../application/usecases/getuser.usecase ';
+import { GetUserUseCase } from '../application/usecases/getuser.usecase';
 import { ListUsersUseCase } from '../application/usecases/listusers.usecase';
 import { UpdateUserUseCase } from '../application/usecases/update-user.usecase';
 import { UpdatePasswordUserUseCase } from '../application/usecases/update-password-user.usecase';
