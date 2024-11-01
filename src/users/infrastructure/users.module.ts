@@ -11,13 +11,20 @@ import { ListUsersUseCase } from '../application/usecases/listusers.usecase';
 import { UpdateUserUseCase } from '../application/usecases/update-user.usecase';
 import { UpdatePasswordUserUseCase } from '../application/usecases/update-password-user.usecase';
 import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
+import { PrismaService } from '@/shared/infrastructure/database/prisma/prisma.service';
+import { UserPrismaRepository } from './database/prisma/repositories/user-prisma.repository';
 
 @Module({
   controllers: [UsersController],
   providers: [
     {
+      provide: 'PrismaService',
+      useClass: PrismaService,
+    },
+    {
       provide: 'UserRepository',
-      useClass: UserInMemoryRepository,
+      useFactory: (prismaService: PrismaService) => new UserPrismaRepository(prismaService),
+      inject: ['PrismaService']
     },
     {
       provide: 'HashProvider',
@@ -41,23 +48,20 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
     },
     {
       provide: GetUserUseCase.UseCase,
-      useFactory: (
-        userRepository: UserRepository.Repository
-      ) => new GetUserUseCase.UseCase(userRepository),
+      useFactory: (userRepository: UserRepository.Repository) =>
+        new GetUserUseCase.UseCase(userRepository),
       inject: ['UserRepository'],
     },
     {
       provide: ListUsersUseCase.UseCase,
-      useFactory: (
-        userRepository: UserRepository.Repository
-      ) => new ListUsersUseCase.UseCase(userRepository),
+      useFactory: (userRepository: UserRepository.Repository) =>
+        new ListUsersUseCase.UseCase(userRepository),
       inject: ['UserRepository'],
     },
     {
       provide: UpdateUserUseCase.UseCase,
-      useFactory: (
-        userRepository: UserRepository.Repository
-      ) => new UpdateUserUseCase.UseCase(userRepository),
+      useFactory: (userRepository: UserRepository.Repository) =>
+        new UpdateUserUseCase.UseCase(userRepository),
       inject: ['UserRepository'],
     },
     {
@@ -70,10 +74,8 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
     },
     {
       provide: DeleteUserUseCase.UseCase,
-      useFactory: (
-        userRepository: UserRepository.Repository,
-
-      ) => new DeleteUserUseCase.UseCase(userRepository),
+      useFactory: (userRepository: UserRepository.Repository) =>
+        new DeleteUserUseCase.UseCase(userRepository),
       inject: ['UserRepository'],
     },
   ],
