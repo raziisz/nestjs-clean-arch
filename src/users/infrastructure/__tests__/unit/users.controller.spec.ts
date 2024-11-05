@@ -11,7 +11,7 @@ import { UpdatePasswordDto } from '../../dtos/update-password.dto';
 import { GetUserUseCase } from '@/users/application/usecases/getuser.usecase';
 import { ListUsersUseCase } from '@/users/application/usecases/listusers.usecase';
 import { ListUsersDto } from '../../dtos/list-users.dto';
-import { UserPresenter } from '../../presenters/user.presenter';
+import { UserCollectionPresenter, UserPresenter } from '../../presenters/user.presenter';
 
 describe('UsersController', () => {
   let sut: UsersController;
@@ -155,8 +155,9 @@ describe('UsersController', () => {
       perPage: 1,
     };
 
-    const result = await sut.search(searchParams);
-    expect(output).toMatchObject(result);
+    const presenter = await sut.search(searchParams);
+    expect(presenter).toBeInstanceOf(UserCollectionPresenter);
+    expect(presenter).toEqual(new UserCollectionPresenter(output));
     expect(mockListUsersUseCase.execute).toHaveBeenCalledWith(searchParams);
   });
 });
