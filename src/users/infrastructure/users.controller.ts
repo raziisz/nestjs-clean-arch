@@ -96,7 +96,7 @@ export class UsersController {
       ...updataPasswordDto,
       id,
     });
-    return output;
+    return UsersController.userToResponse(output);
   }
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
