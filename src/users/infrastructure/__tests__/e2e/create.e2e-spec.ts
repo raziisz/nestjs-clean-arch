@@ -136,7 +136,9 @@ describe('UsersController', () => {
   });
 
   it('should return a error with 409 code when the email is duplicated', async () => {
-    const entity = new UserEntity(UserDataBuilder({ ...signupDto, email: 'a@a.com' }));
+    const entity = new UserEntity(
+      UserDataBuilder({ ...signupDto, email: 'a@a.com' }),
+    );
     await repository.insert(entity);
 
     const res = await request(app.getHttpServer())
@@ -144,6 +146,7 @@ describe('UsersController', () => {
       .send(signupDto)
       .expect(409);
 
-    console.log(res.body)
+    expect(res.body.error).toBe('Conflic');
+    expect(res.body.message).toEqual('Email address already used');
   });
 });
