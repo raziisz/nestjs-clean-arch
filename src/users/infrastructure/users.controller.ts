@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, HttpCode, HttpStatus, Query, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Inject,
+  HttpCode,
+  HttpStatus,
+  Query,
+  Put,
+} from '@nestjs/common';
 import { SignupDto } from './dtos/signup.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { SigninUseCase } from '../application/usecases/signin.usecase';
@@ -11,10 +24,11 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase';
 import { SigninDto } from './dtos/signin.dto';
 import { ListUsersDto } from './dtos/list-users.dto';
 import { UpdatePasswordDto } from './dtos/update-password.dto';
+import { UserOutput } from '../application/dtos/user-output';
+import { UserPresenter } from './presenters/user.presenter';
 
 @Controller('users')
 export class UsersController {
-
   @Inject(SignupUseCase.UseCase)
   private signupUseCase: SignupUseCase.UseCase;
 
@@ -36,39 +50,57 @@ export class UsersController {
   @Inject(DeleteUserUseCase.UseCase)
   private deleteUserUseCase: DeleteUserUseCase.UseCase;
 
+  static userToResponse(output: UserOutput) {
+    return new UserPresenter(output);
+  }
+
   @Post()
   async create(@Body() signupDto: SignupDto) {
-    return await this.signupUseCase.execute(signupDto)
+    const output = await this.signupUseCase.execute(signupDto);
+    return UsersController.userToResponse(output);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(@Body() signinDto: SigninDto) {
-    return await this.signinUseCase.execute(signinDto)
+    const output = await this.signinUseCase.execute(signinDto);
+    return UsersController.userToResponse(output);
   }
 
   @Get()
   search(@Query() searchParams: ListUsersDto) {
-    return this.listUsersUseCase.execute(searchParams)
+    return this.listUsersUseCase.execute(searchParams);
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.getUserUseCase.execute({ id })
+    const output = await this.getUserUseCase.execute({ id });
+    return UsersController.userToResponse(output);
   }
 
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return await this.updateUserUseCase.execute({ ...updateUserDto, id  })
+    const output = await this.updateUserUseCase.execute({
+      ...updateUserDto,
+      id,
+    });
+    return UsersController.userToResponse(output);
   }
 
   @Patch(':id')
-  async updatePassword(@Param('id') id: string, @Body() updataPasswordDto: UpdatePasswordDto) {
-    return await this.updatePasswordUserUseCase.execute({ ...updataPasswordDto, id  })
+  async updatePassword(
+    @Param('id') id: string,
+    @Body() updataPasswordDto: UpdatePasswordDto,
+  ) {
+    const output = await this.updatePasswordUserUseCase.execute({
+      ...updataPasswordDto,
+      id,
+    });
+    return output;
   }
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    await this.deleteUserUseCase.execute({ id })
+    await this.deleteUserUseCase.execute({ id });
   }
 }
