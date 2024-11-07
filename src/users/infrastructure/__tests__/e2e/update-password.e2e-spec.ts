@@ -84,72 +84,53 @@ describe('UsersController e2e tests', () => {
       ]);
     });
 
-    // it('should return a error with 422 code when the name field is invalid', async () => {
-    //   delete signupDto.name;
-    //   const res = await request(app.getHttpServer())
-    //     .post('/users')
-    //     .send(signupDto)
-    //     .expect(422);
+    it('should return a error with 404 code when throw NotFoundError with invalid id', async () => {
+      const res = await request(app.getHttpServer())
+        .patch(`/users/fakeId`)
+        .send(updatePasswordDto)
+        .expect(HttpStatus.NOT_FOUND);
 
-    //   expect(res.body.error).toBe('Unprocessable Entity');
-    //   expect(res.body.message).toEqual([
-    //     'name should not be empty',
-    //     'name must be a string',
-    //   ]);
-    // });
+      expect(res.body.error).toBe('Not Found');
+      expect(res.body.message).toBe('UserModel not found using ID fakeId');
+    });
 
-    // it('should return a error with 422 code when the email field is invalid', async () => {
-    //   delete signupDto.email;
-    //   const res = await request(app.getHttpServer())
-    //     .post('/users')
-    //     .send(signupDto)
-    //     .expect(422);
+    it('should return a error with 422 code when the password field is invalid', async () => {
+      delete updatePasswordDto.password;
+      const res = await request(app.getHttpServer())
+      .patch(`/users/${entity.id}`)
+      .send(updatePasswordDto)
+        .expect(HttpStatus.UNPROCESSABLE_ENTITY);
 
-    //   expect(res.body.error).toBe('Unprocessable Entity');
-    //   expect(res.body.message).toEqual([
-    //     'email must be an email',
-    //     'email should not be empty',
-    //     'email must be a string',
-    //   ]);
-    // });
+      expect(res.body.error).toBe('Unprocessable Entity');
+      expect(res.body.message).toEqual([
+        'password should not be empty',
+        'password must be a string',
+      ]);
+    });
 
-    // it('should return a error with 422 code when the password field is invalid', async () => {
-    //   delete signupDto.password;
-    //   const res = await request(app.getHttpServer())
-    //     .post('/users')
-    //     .send(signupDto)
-    //     .expect(422);
+    it('should return a error with 422 code when the oldPassword field is invalid', async () => {
+      delete updatePasswordDto.oldPassword;
+      const res = await request(app.getHttpServer())
+        .patch(`/users/${entity.id}`)
+        .send(updatePasswordDto)
+        .expect(HttpStatus.UNPROCESSABLE_ENTITY);
 
-    //   expect(res.body.error).toBe('Unprocessable Entity');
-    //   expect(res.body.message).toEqual([
-    //     'password should not be empty',
-    //     'password must be a string',
-    //   ]);
-    // });
+      expect(res.body.error).toBe('Unprocessable Entity');
+      expect(res.body.message).toEqual([
+        'oldPassword should not be empty',
+        'oldPassword must be a string',
+      ]);
+    });
 
-    // it('should return a error with 422 code with invalid field provided', async () => {
-    //   const res = await request(app.getHttpServer())
-    //     .post('/users')
-    //     .send(Object.assign(signupDto, { xpto: 'fake' }))
-    //     .expect(422);
+    it('should return a error with 422 code when password does not match', async () => {
+      updatePasswordDto.oldPassword = 'fake'
+      const res = await request(app.getHttpServer())
+        .patch(`/users/${entity.id}`)
+        .send(updatePasswordDto)
+        .expect(HttpStatus.UNPROCESSABLE_ENTITY);
 
-    //   expect(res.body.error).toBe('Unprocessable Entity');
-    //   expect(res.body.message).toEqual(['property xpto should not exist']);
-    // });
+        expect(res.body.error).toBe('Unprocessable Entity');
+        expect(res.body.message).toEqual('Old password does not match');
+    });
   });
-
-  // it('should return a error with 409 code when the email is duplicated', async () => {
-  //   const entity = new UserEntity(
-  //     UserDataBuilder({ ...signupDto, email: 'a@a.com' }),
-  //   );
-  //   await repository.insert(entity);
-
-  //   const res = await request(app.getHttpServer())
-  //     .post('/users')
-  //     .send(signupDto)
-  //     .expect(409);
-
-  //   expect(res.body.error).toBe('Conflic');
-  //   expect(res.body.message).toEqual('Email address already used');
-  // });
 });
