@@ -10,7 +10,7 @@ export class ConflictErrorFilter implements ExceptionFilter {
 
     response.status(HttpStatus.CONFLICT).send({
       statusCode: HttpStatus.CONFLICT,
-      error: 'Conflic',
+      error: 'Conflict',
       message: exception.message
     })
   }
