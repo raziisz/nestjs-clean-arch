@@ -74,6 +74,14 @@ export class UsersController {
     return new UserCollectionPresenter(output);
   }
 
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'Conflito de e-mail',
+  })
+  @ApiResponse({
+    status: HttpStatus.UNPROCESSABLE_ENTITY,
+    description: 'Corpo da requisição com dados inválidos',
+  })
   @Post()
   async create(@Body() signupDto: SignupDto) {
     const output = await this.signupUseCase.execute(signupDto);
