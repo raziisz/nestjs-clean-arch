@@ -4,7 +4,6 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { ClassSerializerInterceptor } from '@nestjs/common';
 import { applyGlobalConfig } from './global-config';
 
 async function bootstrap() {
