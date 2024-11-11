@@ -146,7 +146,7 @@ describe('UsersController e2e tests', () => {
       .send(signupDto)
       .expect(409);
 
-    expect(res.body.error).toBe('Conflic');
+    expect(res.body.error).toBe('Conflict');
     expect(res.body.message).toEqual('Email address already used');
   });
 });

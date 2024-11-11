@@ -7,11 +7,11 @@ import { EnvConfigModule } from '@/shared/infrastructure/env-config/env-config.m
 import { UsersModule } from '../../users.module';
 import { DatabaseModule } from '@/shared/infrastructure/database/database.module';
 import request from 'supertest';
-import { UsersController } from '../../users.controller';
-import { instanceToPlain } from 'class-transformer';
 import { applyGlobalConfig } from '@/global-config';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
+import { HashProvider } from '@/shared/application/providers/hash-provider';
+import { BcryptjsHashProvider } from '../../providers/hash-provider/bcryptjs-hash.provider';
 
 describe('UsersController e2e tests', () => {
   let app: INestApplication;
@@ -19,6 +19,9 @@ describe('UsersController e2e tests', () => {
   let repository: UserRepository.Repository;
   const prismaService = new PrismaClient();
   let entity: UserEntity;
+  let hashProvider: HashProvider;
+  let hashPassword: string;
+  let accessToken: string;
 
   beforeAll(async () => {
     setupPrismaTests();
@@ -34,18 +37,30 @@ describe('UsersController e2e tests', () => {
     applyGlobalConfig(app);
     await app.init();
     repository = module.get<UserRepository.Repository>('UserRepository');
+    hashProvider = new BcryptjsHashProvider();
+    hashPassword = await hashProvider.generateHash('1234');
   });
 
   beforeEach(async () => {
     await prismaService.user.deleteMany();
-    entity = new UserEntity(UserDataBuilder({}));
+    entity = new UserEntity(
+      UserDataBuilder({ email: 'a@a.com', password: hashPassword }),
+    );
     await repository.insert(entity);
+
+    const loginResponse = await request(app.getHttpServer())
+      .post(`/users/login`)
+      .send({ email: 'a@a.com', password: '1234' })
+      .expect(HttpStatus.OK);
+
+    accessToken = loginResponse.body.accessToken;
   });
 
   describe('DELETE /users/:id', () => {
     it('should REMOVE a user', async () => {
       const res = await request(app.getHttpServer())
         .delete(`/users/${entity.id}`)
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(HttpStatus.NO_CONTENT)
         .expect({});
     });
@@ -53,13 +68,13 @@ describe('UsersController e2e tests', () => {
     it('should return a error with 404 code when throw NotFoundError with invalid id', async () => {
       const res = await request(app.getHttpServer())
         .delete(`/users/anyid`)
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(HttpStatus.NOT_FOUND)
         .expect({
           statusCode: HttpStatus.NOT_FOUND,
           error: 'Not Found',
           message: 'UserModel not found using ID anyid',
         });
-
     });
   });
 });

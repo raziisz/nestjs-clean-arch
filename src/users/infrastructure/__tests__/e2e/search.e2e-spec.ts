@@ -12,6 +12,8 @@ import { instanceToPlain } from 'class-transformer';
 import { applyGlobalConfig } from '@/global-config';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
+import { HashProvider } from '@/shared/application/providers/hash-provider';
+import { BcryptjsHashProvider } from '../../providers/hash-provider/bcryptjs-hash.provider';
 
 describe('UsersController e2e tests', () => {
   let app: INestApplication;
@@ -19,6 +21,9 @@ describe('UsersController e2e tests', () => {
   let repository: UserRepository.Repository;
   const prismaService = new PrismaClient();
   let entity: UserEntity;
+  let hashProvider: HashProvider;
+  let hashPassword: string;
+  let accessToken: string;
 
   beforeAll(async () => {
     setupPrismaTests();
@@ -34,10 +39,24 @@ describe('UsersController e2e tests', () => {
     applyGlobalConfig(app);
     await app.init();
     repository = module.get<UserRepository.Repository>('UserRepository');
+    hashProvider = new BcryptjsHashProvider();
+    hashPassword = await hashProvider.generateHash('1234');
   });
 
   beforeEach(async () => {
     await prismaService.user.deleteMany();
+
+    entity = new UserEntity(
+      UserDataBuilder({ email: 'a@a.com', password: hashPassword }),
+    );
+    await repository.insert(entity);
+
+    const loginResponse = await request(app.getHttpServer())
+      .post(`/users/login`)
+      .send({ email: 'a@a.com', password: '1234' })
+      .expect(HttpStatus.OK);
+
+    accessToken = loginResponse.body.accessToken;
   });
 
   describe('GET /users', () => {
@@ -64,17 +83,18 @@ describe('UsersController e2e tests', () => {
 
       const res = await request(app.getHttpServer())
         .get(`/users/${queryParams}`)
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(HttpStatus.OK);
 
       expect(Object.keys(res.body)).toStrictEqual(['data', 'meta']);
       expect(res.body).toStrictEqual({
-        data: [...entities]
+        data: [entity, ...entities]
           .reverse()
           .map(item =>
             instanceToPlain(UsersController.userToResponse(item.toJSON())),
           ),
         meta: {
-          total: 3,
+          total: 4,
           currentPage: 1,
           perPage: 15,
           lastPage: 1,
@@ -110,6 +130,7 @@ describe('UsersController e2e tests', () => {
 
       const res = await request(app.getHttpServer())
         .get(`/users/?${queryParams}`)
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(HttpStatus.OK);
 
       expect(Object.keys(res.body)).toStrictEqual(['data', 'meta']);
@@ -129,6 +150,7 @@ describe('UsersController e2e tests', () => {
     it('should return a error with 422 code when the query params invalid', async () => {
       const res = await request(app.getHttpServer())
         .get(`/users/?anyid=10`)
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(HttpStatus.UNPROCESSABLE_ENTITY);
 
       expect(res.body.error).toBe('Unprocessable Entity');
