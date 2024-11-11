@@ -88,6 +88,27 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    schema: {
+      type: 'object',
+      properties: {
+        accesToken: { type: 'string' },
+      },
+    },
+  })
+  @ApiResponse({
+    status: HttpStatus.UNPROCESSABLE_ENTITY,
+    description: 'Corpo da requisição com dados inválidos',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'E-mail não encontrado',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Credenciais inválidas',
+  })
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(@Body() signinDto: SigninDto) {
