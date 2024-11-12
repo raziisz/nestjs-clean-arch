@@ -40,21 +40,6 @@ $ npm run start:dev
 # O servidor inciará na porta:3000 - acesse <http://localhost:3000>
 ```
 
-### 🎲 Rodando o Web
-
-```bash
-# na pasta baixada pelo repositorio navegue no terminal/cmd
-$ cd web
-
-# Instale as dependências
-$ npm install
-
-# Execute a aplicação em modo de desenvolvimento
-$ npm start
-
-# O servidor inciará na porta:3000 - acesse <http://localhost:3000> ou ip da sua máquina na porta 3000 (melhor experiencia)
-```
-
 ### 🛠 Tecnologias - API
 
 As seguintes ferramentas foram usadas na construção do projeto na camada backend:
