@@ -1,99 +1,82 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+<h1 align="center">NodeJs Avançado com Clean Architecture, Nestjs e Typescript</h1>
+<p align="center">Aplicando DDD, Testes Automatizados e princípios Solid</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### Pré-requisitos
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
+[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/), [Docker](https://www.docker.com/).
+Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+### 🎲 Baixando projeto pelo git
 
 ```bash
-$ npm install
+# Clone este repositório em algum diretório
+$ git clone <https://github.com/raziisz/nestjs-clean-arch.git>
+
 ```
-
-## Compile and run the project
+### 🎲 Subindio API em .Net Core
 
 ```bash
-# development
-$ npm run start
+# Acesse a pasta do projeto no terminal/cmd
+$ cd nestjs-clean-arch
 
-# watch mode
+# Instale as dependências
+$ npm install
+
+# Subindo o banco de dados
+$ docker-compose build --no-cache
+$ docker-compose up -d
+
+#Subira um container do banco de dados Postgres com user = postgres e senha = docker
+
+# Crie respectivamente os arquivos .env .env.development e .env.test configurando de acordo com arquivo .env.example
+
+# Na pasta backend execute o comando no terminal para rodar as migrações e criar banco de dados
+$ npx dotenv-cli -e .env.development -- npx prisma migrate dev --schema .\src\shared\infrastructure\database\prisma\schema.prisma
+
+# Execute o comando no terminal para aplicação carregar em modo de desenvolvimento
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
+# O servidor inciará na porta:3000 - acesse <http://localhost:3000>
 ```
 
-## Run tests
+### 🎲 Rodando o Web
 
 ```bash
-# unit tests
-$ npm run test
+# na pasta baixada pelo repositorio navegue no terminal/cmd
+$ cd web
 
-# e2e tests
-$ npm run test:e2e
+# Instale as dependências
+$ npm install
 
-# test coverage
-$ npm run test:cov
+# Execute a aplicação em modo de desenvolvimento
+$ npm start
+
+# O servidor inciará na porta:3000 - acesse <http://localhost:3000> ou ip da sua máquina na porta 3000 (melhor experiencia)
 ```
 
-## Deployment
+### 🛠 Tecnologias - API
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+As seguintes ferramentas foram usadas na construção do projeto na camada backend:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+- [Node.js](https://nodejs.org/en/)
+- [Nestjs](https://nestjs.com/)
+- [Prisma](https://www.prisma.io/)
+- [Jwt](https://jwt.io/)
+- [Docker](https://www.docker.com/)
+- [Jest](https://jestjs.io/pt-BR/)
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+### Autor
+---
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+<a href="http://raziisz.github.io/">
+ <img style="border-radius: 50%;" src="https://avatars2.githubusercontent.com/u/42245201?s=460&u=ce3bae80de213ad246855873906246051fba4458&v=4" width="100px;" alt=""/>
+ <br />
+ <sub><b>Luiz Felipe</b></sub></a> <a href="http://raziisz.github.io/" title="Dev">🚀</a>
 
-## Resources
 
-Check out a few resources that may come in handy when working with NestJS:
+Feito com ❤️ por Luiz Felipe 👋🏽 Entre em contato!
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+[![Linkedin Badge](https://img.shields.io/badge/-Felipe-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/felipelibert30/)](https://www.linkedin.com/in/felipelibert30/)
+[![Outlook Badge](https://img.shields.io/badge/-raziel_libertino@hotmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:raziel_libertino@hotmail.com)](mailto:raziel_libertino@hotmail.com)
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
