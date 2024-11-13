@@ -37,6 +37,7 @@ describe('InMemoryRepository unit tests', () => {
   });
 
   it('Should get all entity', async () => {
+    sut.items = [];
     const entity = new StubEntity({ name: 'teste name', price: 50 });
     await sut.insert(entity);
 
@@ -46,6 +47,7 @@ describe('InMemoryRepository unit tests', () => {
   });
 
   it('Should throw error on update when entity not found', async () => {
+    sut.items = [];
     const entity = new StubEntity({ name: 'teste name', price: 50 });
 
     expect(sut.update(entity)).rejects.toThrow(
@@ -72,6 +74,7 @@ describe('InMemoryRepository unit tests', () => {
   });
 
   it('Should delete an entity', async () => {
+    sut.items = [];
     const entity = new StubEntity({ name: 'teste name', price: 50 });
     await sut.insert(entity);
     await sut.delete(entity.id);
