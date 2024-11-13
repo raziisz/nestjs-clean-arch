@@ -26,8 +26,7 @@ export class ListUsersDto implements ListUsersUseCase.Input {
   sortDir?: SortDirection;
 
   @ApiPropertyOptional({
-    description:
-      'Dado informado para filtrar o resultado.',
+    description: 'Dado informado para filtrar o resultado.',
   })
   @IsOptional()
   filter?: string;

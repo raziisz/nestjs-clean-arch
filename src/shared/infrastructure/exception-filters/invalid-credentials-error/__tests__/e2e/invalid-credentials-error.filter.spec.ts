@@ -1,9 +1,8 @@
-import { Controller, Get, HttpStatus, INestApplication } from "@nestjs/common";
-import { InvalidCredentialsErrorFilter } from "../../invalid-credentials-error.filter";
-import { TestingModule, Test } from "@nestjs/testing";
-import { InvalidCredentialsError } from "@/shared/application/errors/invalid-credentials-error";
+import { Controller, Get, HttpStatus, INestApplication } from '@nestjs/common';
+import { InvalidCredentialsErrorFilter } from '../../invalid-credentials-error.filter';
+import { TestingModule, Test } from '@nestjs/testing';
+import { InvalidCredentialsError } from '@/shared/application/errors/invalid-credentials-error';
 import request from 'supertest';
-
 
 @Controller('stub')
 class StubController {
@@ -40,6 +39,4 @@ describe('InvalidCredentialsErrorFilter e2e', () => {
         message: 'Invalid credentials',
       });
   });
-
 });
-

@@ -10,7 +10,10 @@ import { UpdatePasswordDto } from '../../dtos/update-password.dto';
 import { GetUserUseCase } from '@/users/application/usecases/getuser.usecase';
 import { ListUsersUseCase } from '@/users/application/usecases/listusers.usecase';
 import { ListUsersDto } from '../../dtos/list-users.dto';
-import { UserCollectionPresenter, UserPresenter } from '../../presenters/user.presenter';
+import {
+  UserCollectionPresenter,
+  UserPresenter,
+} from '../../presenters/user.presenter';
 
 describe('UsersController', () => {
   let sut: UsersController;
@@ -61,7 +64,7 @@ describe('UsersController', () => {
 
     const mockAuthService = {
       generateJwt: jest.fn().mockReturnValue(Promise.resolve(output)),
-    }
+    };
 
     sut['signinUseCase'] = mockSigninUseCase as any;
     const input: SigninDto = {
@@ -126,7 +129,6 @@ describe('UsersController', () => {
     expect(mockDeleteUserUseCase.execute).toHaveBeenCalledWith({ id });
   });
   it('should get a user', async () => {
-
     const output: GetUserUseCase.Output = props;
     const mockGetUserUseCase = {
       execute: jest.fn().mockReturnValue(output),
@@ -147,7 +149,7 @@ describe('UsersController', () => {
       lastPage: 1,
       perPage: 1,
       total: 1,
-    }
+    };
     const mockListUsersUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(output)),
     };

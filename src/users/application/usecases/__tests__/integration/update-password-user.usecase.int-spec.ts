@@ -87,7 +87,7 @@ describe('UpdatePasswordUserUseCase integration tests', () => {
       oldPassword: 'abc123',
     });
 
-    const result = await hashProvider.compareHash('123abc', output.password)
-    expect(result).toBeTruthy()
+    const result = await hashProvider.compareHash('123abc', output.password);
+    expect(result).toBeTruthy();
   });
 });

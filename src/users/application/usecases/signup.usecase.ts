@@ -15,7 +15,10 @@ export namespace SignupUseCase {
   export type Output = UserOutput;
 
   export class UseCase implements DefaultUseCase<Input, Output> {
-    constructor(private userRepository: UserRepository.Repository, private hashProvider: HashProvider) {}
+    constructor(
+      private userRepository: UserRepository.Repository,
+      private hashProvider: HashProvider,
+    ) {}
     async execute(input: Input): Promise<Output> {
       const { name, email, password } = input;
       if (!email || !name || !password)
@@ -24,7 +27,7 @@ export namespace SignupUseCase {
       await this.userRepository.emailExists(email);
       const hashPassword = await this.hashProvider.generateHash(input.password);
       const entity = new UserEntity(
-        Object.assign(input, { password: hashPassword })
+        Object.assign(input, { password: hashPassword }),
       );
       await this.userRepository.insert(entity);
 

@@ -19,7 +19,7 @@ describe('SignupUseCase integration tests', () => {
       imports: [DatabaseModule.forTest(prismaService)],
     }).compile();
 
-    repository = new UserPrismaRepository(prismaService as any)
+    repository = new UserPrismaRepository(prismaService as any);
     hashProvider = new BcryptjsHashProvider();
   });
 
@@ -36,12 +36,12 @@ describe('SignupUseCase integration tests', () => {
     const props = {
       name: 'Test name',
       email: 'a@a.com',
-      password: 'TestPassword123'
-    }
+      password: 'TestPassword123',
+    };
 
     const output = await sut.execute(props);
 
-    expect(output.id).toBeDefined()
-    expect(output.createdAt).toBeInstanceOf(Date)
+    expect(output.id).toBeDefined();
+    expect(output.createdAt).toBeInstanceOf(Date);
   });
 });

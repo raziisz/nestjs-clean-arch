@@ -12,12 +12,12 @@ import { EnvConfigService } from '@/shared/infrastructure/env-config/env-config.
       useFactory: async (configService: EnvConfigService) => ({
         global: true,
         secret: configService.getJwtSecret(),
-        signOptions: { expiresIn: configService.getJwtExpiresInSeconds() }
+        signOptions: { expiresIn: configService.getJwtExpiresInSeconds() },
       }),
       inject: [EnvConfigService],
-    })
+    }),
   ],
   providers: [AuthService],
-  exports: [AuthService]
+  exports: [AuthService],
 })
 export class AuthModule {}

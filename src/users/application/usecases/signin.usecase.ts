@@ -15,7 +15,10 @@ export namespace SigninUseCase {
   export type Output = UserOutput;
 
   export class UseCase implements DefaultUseCase<Input, Output> {
-    constructor(private userRepository: UserRepository.Repository, private hashProvider: HashProvider) {}
+    constructor(
+      private userRepository: UserRepository.Repository,
+      private hashProvider: HashProvider,
+    ) {}
     async execute(input: Input): Promise<Output> {
       const { email, password } = input;
       if (!email || !password)
@@ -23,7 +26,10 @@ export namespace SigninUseCase {
 
       const entity = await this.userRepository.findByEmail(email);
 
-      const passwordsMatches = await this.hashProvider.compareHash(password, entity.password)
+      const passwordsMatches = await this.hashProvider.compareHash(
+        password,
+        entity.password,
+      );
 
       if (!passwordsMatches)
         throw new InvalidCredentialsError('Invalid credentials');

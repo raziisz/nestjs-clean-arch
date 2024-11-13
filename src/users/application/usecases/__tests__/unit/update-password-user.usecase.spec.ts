@@ -19,45 +19,73 @@ describe('UpdatePasswordUserUseCase test unit', () => {
 
   it('Should throws error when entity not found', async () => {
     await expect(() =>
-      sut.execute({ id: 'anyid', password: 'new password', oldPassword: 'oldpassword' }),
+      sut.execute({
+        id: 'anyid',
+        password: 'new password',
+        oldPassword: 'oldpassword',
+      }),
     ).rejects.toThrow(new NotFoundError('Entity not found'));
   });
 
   it('Should throws error when password or oldpassword not provided', async () => {
     const items = [new UserEntity(UserDataBuilder({}))];
     repository.items = items;
-    await expect(() => sut.execute({ id: items[0].id, password: '', oldPassword: '' })).rejects.toThrow(
+    await expect(() =>
+      sut.execute({ id: items[0].id, password: '', oldPassword: '' }),
+    ).rejects.toThrow(
       new InvalidPasswordError('Old password and new password is required'),
     );
 
-    await expect(() => sut.execute({ id: items[0].id, password: 'anypassword', oldPassword: '' })).rejects.toThrow(
+    await expect(() =>
+      sut.execute({
+        id: items[0].id,
+        password: 'anypassword',
+        oldPassword: '',
+      }),
+    ).rejects.toThrow(
       new InvalidPasswordError('Old password and new password is required'),
     );
 
-    await expect(() => sut.execute({ id: items[0].id, password: '', oldPassword: 'anyoldpassword' })).rejects.toThrow(
+    await expect(() =>
+      sut.execute({
+        id: items[0].id,
+        password: '',
+        oldPassword: 'anyoldpassword',
+      }),
+    ).rejects.toThrow(
       new InvalidPasswordError('Old password and new password is required'),
     );
   });
 
   it('Should throws error when oldPassword no match with entity password', async () => {
-    const hashPassword = await hashProvider.generateHash('1234')
+    const hashPassword = await hashProvider.generateHash('1234');
     const items = [new UserEntity(UserDataBuilder({ password: hashPassword }))];
     repository.items = items;
-    await expect(() => sut.execute({ id: items[0].id, password: '123545677', oldPassword: '123' })).rejects.toThrow(
-      new InvalidPasswordError('Old password does not match'),
-    );
-
+    await expect(() =>
+      sut.execute({
+        id: items[0].id,
+        password: '123545677',
+        oldPassword: '123',
+      }),
+    ).rejects.toThrow(new InvalidPasswordError('Old password does not match'));
   });
 
   it('Should update a password', async () => {
     const spyUpdate = jest.spyOn(repository, 'update');
-    const hashPassword = await hashProvider.generateHash('1234')
+    const hashPassword = await hashProvider.generateHash('1234');
     const items = [new UserEntity(UserDataBuilder({ password: hashPassword }))];
 
     repository.items = items;
-    const result = await sut.execute({ id: items[0].id, password: '123789', oldPassword: '1234' });
+    const result = await sut.execute({
+      id: items[0].id,
+      password: '123789',
+      oldPassword: '1234',
+    });
 
-    const checkNewPassword = await hashProvider.compareHash('123789', result.password)
+    const checkNewPassword = await hashProvider.compareHash(
+      '123789',
+      result.password,
+    );
 
     expect(spyUpdate).toHaveBeenCalledTimes(1);
     expect(checkNewPassword).toBeTruthy();

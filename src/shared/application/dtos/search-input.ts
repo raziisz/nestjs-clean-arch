@@ -1,4 +1,4 @@
-import { SortDirection } from "@/shared/domain/repositories/searchable-repository.contracts";
+import { SortDirection } from '@/shared/domain/repositories/searchable-repository.contracts';
 
 export type SearchInput<Filter = string> = {
   page?: number;
@@ -6,4 +6,4 @@ export type SearchInput<Filter = string> = {
   sort?: string | null;
   sortDir?: SortDirection | null;
   filter?: Filter;
-}
+};

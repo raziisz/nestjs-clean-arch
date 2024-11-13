@@ -9,7 +9,7 @@ describe('UserModelMapper integration tests', () => {
   let props: any;
 
   beforeAll(async () => {
-    setupPrismaTests()
+    setupPrismaTests();
     prismaService = new PrismaClient();
     await prismaService.$connect();
   });

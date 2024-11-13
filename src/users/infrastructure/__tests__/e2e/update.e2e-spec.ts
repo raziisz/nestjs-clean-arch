@@ -105,7 +105,6 @@ describe('UsersController e2e tests', () => {
           error: 'Not Found',
           message: 'UserModel not found using ID anyid',
         });
-
     });
   });
 });

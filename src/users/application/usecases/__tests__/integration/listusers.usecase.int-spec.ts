@@ -97,12 +97,12 @@ describe('ListUsersUseCase integration tests', () => {
     });
 
     output = await sut.execute({
-        page: 2,
-        perPage: 2,
-        sort: 'name',
-        sortDir: 'asc',
-        filter: 'TEST',
-      })
+      page: 2,
+      perPage: 2,
+      sort: 'name',
+      sortDir: 'asc',
+      filter: 'TEST',
+    });
 
     expect(output).toMatchObject({
       items: [entities[2].toJSON()],

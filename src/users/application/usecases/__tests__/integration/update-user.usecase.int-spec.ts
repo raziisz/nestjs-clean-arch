@@ -32,9 +32,9 @@ describe('UpdateUserUseCase integration tests', () => {
   });
 
   it('should throws error when entity not found', async () => {
-    await expect(() => sut.execute({ id: 'anyid', name: 'new name' })).rejects.toThrow(
-      new NotFoundError('UserModel not found using ID anyid'),
-    );
+    await expect(() =>
+      sut.execute({ id: 'anyid', name: 'new name' }),
+    ).rejects.toThrow(new NotFoundError('UserModel not found using ID anyid'));
   });
 
   it('should update a user', async () => {

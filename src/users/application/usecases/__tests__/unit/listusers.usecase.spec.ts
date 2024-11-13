@@ -77,7 +77,6 @@ describe('ListUsersUseCase unit tests', () => {
   });
 
   it('should return the users using pagination, sort and filter', async () => {
-
     const items = [
       new UserEntity(UserDataBuilder({ name: 'a' })),
       new UserEntity(UserDataBuilder({ name: 'AA' })),

@@ -11,7 +11,7 @@ describe('BCryptjsHashProvider unit tests', () => {
     const password = 'TestPassword123';
     const hash = await sut.generateHash(password);
 
-    expect(hash).toBeDefined()
+    expect(hash).toBeDefined();
   });
 
   it('Should return false on invalid password and hash comparison', async () => {
@@ -19,7 +19,7 @@ describe('BCryptjsHashProvider unit tests', () => {
     const hash = await sut.generateHash(password);
     const result = await sut.compareHash('fake', hash);
 
-    expect(result).toBeFalsy()
+    expect(result).toBeFalsy();
   });
 
   it('Should return true on valid password and hash comparison', async () => {
@@ -27,6 +27,6 @@ describe('BCryptjsHashProvider unit tests', () => {
     const hash = await sut.generateHash(password);
     const result = await sut.compareHash(password, hash);
 
-    expect(result).toBeTruthy()
+    expect(result).toBeTruthy();
   });
 });

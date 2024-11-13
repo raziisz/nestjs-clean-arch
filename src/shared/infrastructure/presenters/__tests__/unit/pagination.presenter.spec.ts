@@ -8,9 +8,9 @@ describe('PaginationPresenter unit tests', () => {
         currentPage: 1,
         perPage: 2,
         lastPage: 3,
-        total: 4
-      }
-      const sut = new PaginationPresenter(props)
+        total: 4,
+      };
+      const sut = new PaginationPresenter(props);
       expect(sut.currentPage).toEqual(props.currentPage);
       expect(sut.perPage).toEqual(props.perPage);
       expect(sut.lastPage).toEqual(props.lastPage);
@@ -22,9 +22,9 @@ describe('PaginationPresenter unit tests', () => {
         currentPage: '1' as any,
         perPage: '2' as any,
         lastPage: '3' as any,
-        total: '4' as any
-      }
-      const sut = new PaginationPresenter(props)
+        total: '4' as any,
+      };
+      const sut = new PaginationPresenter(props);
       expect(sut.currentPage).toEqual(props.currentPage);
       expect(sut.perPage).toEqual(props.perPage);
       expect(sut.lastPage).toEqual(props.lastPage);
@@ -37,31 +37,31 @@ describe('PaginationPresenter unit tests', () => {
       currentPage: 1,
       perPage: 2,
       lastPage: 3,
-      total: 4
-    }
-    let sut = new PaginationPresenter(props)
+      total: 4,
+    };
+    let sut = new PaginationPresenter(props);
     let output = instanceToPlain(sut);
     expect(output).toStrictEqual({
       currentPage: 1,
       perPage: 2,
       lastPage: 3,
-      total: 4
+      total: 4,
     });
 
     props = {
       currentPage: '1' as any,
       perPage: '2' as any,
       lastPage: '3' as any,
-      total: '4' as any
-    }
+      total: '4' as any,
+    };
 
-    sut = new PaginationPresenter(props)
+    sut = new PaginationPresenter(props);
     output = instanceToPlain(sut);
     expect(output).toStrictEqual({
       currentPage: 1,
       perPage: 2,
       lastPage: 3,
-      total: 4
+      total: 4,
     });
   });
 });

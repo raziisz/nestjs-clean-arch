@@ -44,18 +44,21 @@ describe('SigninUseCase integration tests', () => {
         email: 'a@a.com',
         password: 'new password',
       }),
-    ).rejects.toThrow(new NotFoundError('UserModel not found using email a@a.com'));
+    ).rejects.toThrow(
+      new NotFoundError('UserModel not found using email a@a.com'),
+    );
   });
   it('should not be able to authenticate with wrong password', async () => {
     const oldPassword = await hashProvider.generateHash('1234');
-    const entity = new UserEntity(UserDataBuilder({ password: oldPassword, email: 'a@a.com'}));
+    const entity = new UserEntity(
+      UserDataBuilder({ password: oldPassword, email: 'a@a.com' }),
+    );
     const newUser = await prismaService.user.create({ data: entity.toJSON() });
 
     await expect(() =>
       sut.execute({
         email: 'a@a.com',
         password: 'fakepassword',
-
       }),
     ).rejects.toThrow(new InvalidCredentialsError('Invalid credentials'));
   });
@@ -79,14 +82,16 @@ describe('SigninUseCase integration tests', () => {
 
   it('should authenticate a user', async () => {
     const hashPassword = await hashProvider.generateHash('123');
-    const entity = new UserEntity(UserDataBuilder({ email: 'a@a.com', password: hashPassword }));
+    const entity = new UserEntity(
+      UserDataBuilder({ email: 'a@a.com', password: hashPassword }),
+    );
     const newUser = await prismaService.user.create({ data: entity.toJSON() });
 
     const output = await sut.execute({
       email: 'a@a.com',
-      password: '123'
+      password: '123',
     });
 
-    expect(output).toMatchObject(entity.toJSON())
+    expect(output).toMatchObject(entity.toJSON());
   });
 });

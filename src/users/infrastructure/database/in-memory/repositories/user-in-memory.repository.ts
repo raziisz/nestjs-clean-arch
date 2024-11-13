@@ -39,8 +39,9 @@ export class UserInMemoryRepository
     sort: string | null,
     sortDir: SortDirection | null,
   ): Promise<UserEntity[]> {
-    return !sort ? super.applySort(items, 'createdAt', 'desc') : super.applySort(items, sort, sortDir)
-
+    return !sort
+      ? super.applySort(items, 'createdAt', 'desc')
+      : super.applySort(items, sort, sortDir);
   }
 
   private async getEmail(email: string): Promise<UserEntity | null> {

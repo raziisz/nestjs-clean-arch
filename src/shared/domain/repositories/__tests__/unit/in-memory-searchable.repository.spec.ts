@@ -237,7 +237,7 @@ describe('InMemoryRepository unit tests', () => {
           page: 1,
           perPage: 2,
           sort: 'name',
-          sortDir: 'asc'
+          sortDir: 'asc',
         }),
       );
       expect(params).toStrictEqual(
@@ -257,7 +257,7 @@ describe('InMemoryRepository unit tests', () => {
           page: 3,
           perPage: 2,
           sort: 'name',
-          sortDir: 'asc'
+          sortDir: 'asc',
         }),
       );
       expect(params).toStrictEqual(
@@ -289,7 +289,7 @@ describe('InMemoryRepository unit tests', () => {
           page: 1,
           perPage: 2,
           sort: 'name',
-          filter: 'TEST'
+          filter: 'TEST',
         }),
       );
       expect(params).toStrictEqual(
@@ -309,7 +309,7 @@ describe('InMemoryRepository unit tests', () => {
           page: 2,
           perPage: 2,
           sort: 'name',
-          filter: 'TEST'
+          filter: 'TEST',
         }),
       );
       expect(params).toStrictEqual(

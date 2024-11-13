@@ -1,4 +1,12 @@
-import { MaxLength, IsString, IsNotEmpty, IsNumber, IsDate, IsOptional, IsEmail } from 'class-validator';
+import {
+  MaxLength,
+  IsString,
+  IsNotEmpty,
+  IsNumber,
+  IsDate,
+  IsOptional,
+  IsEmail,
+} from 'class-validator';
 import { UserProps } from '../entities/user.entity';
 import { ClassValidatorFields } from '@/shared/domain/validators/class-validator-fields';
 
@@ -30,12 +38,12 @@ export class UserRules {
 
 export class UserValidator extends ClassValidatorFields<UserRules> {
   validate(data: UserProps): boolean {
-    return super.validate(new UserRules(data ?? {} as UserProps))
+    return super.validate(new UserRules(data ?? ({} as UserProps)));
   }
 }
 
 export class UserValidatorFactory {
   static create(): UserValidator {
-    return new UserValidator()
+    return new UserValidator();
   }
 }

@@ -34,20 +34,28 @@ describe('SignupUseCase test unit', () => {
     const props = UserDataBuilder({ email: 'a@a.com' });
     await sut.execute(props);
 
-    await expect(() => sut.execute(props)).rejects.toBeInstanceOf(ConflictError);
+    await expect(() => sut.execute(props)).rejects.toBeInstanceOf(
+      ConflictError,
+    );
   });
 
   it('Should throws error when name not provided', async () => {
     const props = Object.assign(UserDataBuilder({}), { name: null });
-    await expect(() => sut.execute(props)).rejects.toBeInstanceOf(BadRequestError);
+    await expect(() => sut.execute(props)).rejects.toBeInstanceOf(
+      BadRequestError,
+    );
   });
   it('Should throws error when email not provided', async () => {
     const props = Object.assign(UserDataBuilder({}), { email: null });
-    await expect(() => sut.execute(props)).rejects.toBeInstanceOf(BadRequestError);
+    await expect(() => sut.execute(props)).rejects.toBeInstanceOf(
+      BadRequestError,
+    );
   });
 
   it('Should throws error when password not provided', async () => {
     const props = Object.assign(UserDataBuilder({}), { password: null });
-    await expect(() => sut.execute(props)).rejects.toBeInstanceOf(BadRequestError);
+    await expect(() => sut.execute(props)).rejects.toBeInstanceOf(
+      BadRequestError,
+    );
   });
 });

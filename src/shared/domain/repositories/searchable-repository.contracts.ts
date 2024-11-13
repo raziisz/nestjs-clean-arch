@@ -93,7 +93,9 @@ export class SearchParams<Filter = string> {
 
   private set filter(value: Filter | null) {
     this._filter =
-      value === null || value === undefined || value === '' ? null :( `${value}` as any);
+      value === null || value === undefined || value === ''
+        ? null
+        : (`${value}` as any);
   }
 }
 
@@ -137,7 +139,6 @@ export interface SearchableRepositoryInterface<
   SeachInput = SearchParams<Filter>,
   SearchOutput = SearchResult<E, Filter>,
 > extends RepositoryInterface<E> {
-
   sortableFields: string[];
 
   search(props: SeachInput): Promise<SearchOutput>;
